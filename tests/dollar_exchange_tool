@@ -1,0 +1,29 @@
+from crewai.tools import tool
+from datetime import datetime, timedelta
+import requests
+
+# Armazena a última consulta
+last_checked = None
+cached_result = None  # Armazenará o valor em cache
+
+
+@tool
+def dollar_exchange_tool() -> str:
+    """Consulta a cotação do dólar em relação ao real (USD-BRL)."""
+    global last_checked, cached_result
+    # Verifica se o cache pode ser usado
+    agora = datetime.now()
+    if last_checked and (agora - last_checked < timedelta(hours=1)):
+        return f"Usando cache: a cotação do dólar é R$ {cached_result}"
+
+    # Caso contrário, faz nova consulta
+    url_cotacao = "https://economia.awesomeapi.com.br/json/last/USD-BRL"
+    resposta = requests.get(url_cotacao)
+    if resposta.status_code == 200:
+        dados = resposta.json()
+        cotacao_dolar = dados["USDBRL"]["bid"]
+        cached_result = cotacao_dolar  # Atualiza o cache
+        last_checked = agora  # Atualiza o horário da última consulta
+        return f"A cotação atual do dólar é R$ {cotacao_dolar}."
+    else:
+        return "Erro ao consultar a cotação do dólar."

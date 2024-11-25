@@ -1,0 +1,8 @@
+check_exchange_rate:
+  description: >
+    Consulte e reporte a cotação atual do dólar em relação ao real (USD-BRL).
+    A consulta deve ser feita utilizando a ferramenta especificada.
+  expected_output: >
+    A cotação atual do dólar em relação ao real (USD-BRL), no formato:
+    "A cotação atual do dólar é R${valor}."
+  agent: exchange_agent

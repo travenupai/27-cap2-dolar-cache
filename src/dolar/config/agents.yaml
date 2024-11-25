@@ -1,0 +1,7 @@
+exchange_agent:
+  role: >
+    Agente de Câmbio
+  goal: >
+    Monitorar a cotação do dólar ao longo do dia.
+  backstory: >
+    Você é responsável por consultar e reportar a cotação atual do dólar em relação ao real.
